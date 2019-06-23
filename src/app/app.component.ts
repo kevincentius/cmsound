@@ -106,7 +106,10 @@ Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0
     this.pitch = 0;
     this.chess.reset();
     this.chess.load_pgn(this.pgn);
-    this.history = this.chess.history({ verbose: true });
+    this.history = this.chess.history({ verbose: true }).slice(0);
+
+    while (this.chess.undo()) { continue; }
+
     this.move = 0;
     this.board.start(false);
 
@@ -137,22 +140,8 @@ Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0
     }
 
     // play move on board
-    // TODO: what about enpassant??
-    if (move.san === 'O-O') {
-      if (move.color === 'w') {
-        this.board.move('e1-g1', 'h1-f1');
-      } else {
-        this.board.move('e8-g8', 'h8-f8');
-      }
-    } else if (move.san === 'O-O-O') {
-      if (move.color === 'w') {
-        this.board.move('e1-c1', 'a1-d1');
-      } else {
-        this.board.move('e8-c8', 'a8-d8');
-      }
-    } else {
-      this.board.move(move.from + '-' + move.to);
-    }
+    this.chess.move(move.san);
+    this.board.position(this.chess.fen());
 
     this.move++;
     if (this.history.length > this.move) {
