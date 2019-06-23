@@ -39,8 +39,8 @@ Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0
   history;
   move = 0;
 
-  pieces = [ 'P', 'N', 'B', 'R', 'Q', 'K' ];
-  soundNames = { P: 'pawn', N: 'knightc', B: 'bishopd', R: 'rookb', Q: 'queenb', K: 'king' };
+  pieces = [ 'P', 'N', 'B', 'R', 'Q', 'K', 'gameover' ];
+  soundNames = { P: 'pawn', N: 'knightc', B: 'bishopd', R: 'rookb', Q: 'queenb', K: 'king', gameover: 'gameover' };
   sounds: any = {};
   loaded = 0;
 
@@ -159,6 +159,12 @@ Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0
       this.timeout = setTimeout(this.play.bind(this), 3428);
     } else {
       this.playable = false;
+      this.timeout = setTimeout(function() {
+        const gameoverPlayer = this.sounds['gameover'][this.pitch];
+        gameoverPlayer.currentTime = 0;
+        // player.pitchFx.pitch = this.pitch;
+        gameoverPlayer.start();
+      }.bind(this), 3428);
     }
   }
 
