@@ -28,10 +28,10 @@ export class SoundService {
   loadPrerender(name, onload) {
     let count = 0;
     const players: any = {};
-    for (let i = -10; i <= 10; i++) {
+    for (let i = -4; i <= 9; i++) {
       players[i] = new Player('/assets/snd/prerender/' + name + i + '.wav', function() {
         count++;
-        if (count === 21) {
+        if (count === 14) {
           onload(players);
         }
       }).toMaster();
