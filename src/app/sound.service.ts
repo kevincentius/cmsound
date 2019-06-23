@@ -29,7 +29,7 @@ export class SoundService {
     let count = 0;
     const players: any = {};
     for (let i = -4; i <= 9; i++) {
-      players[i] = new Player('/assets/snd/prerender/' + name + i + '.wav', function() {
+      players[i] = new Player('/assets/snd/prerender/' + name + i + '.mp3', function() {
         count++;
         if (count === 14) {
           onload(players);
