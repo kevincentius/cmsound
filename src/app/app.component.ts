@@ -45,7 +45,7 @@ Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0
   loaded = 0;
 
   pitch = 0;
-  maxPitch = 9;
+  maxPitch = 10;
   minPitch = -3;
 
   @ViewChild('boardElm') boardElm;
@@ -131,7 +131,7 @@ Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0
     // update pitch
     const d = 3; // 3 + 2 * Math.floor(Math.random() * 2);
     if (this.pitch + d > this.maxPitch) {
-      this.pitch -= 11;
+      this.pitch -= 17;
     } else {
       this.pitch += d;
     }
