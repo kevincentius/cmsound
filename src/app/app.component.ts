@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SoundService } from './sound.service';
 // import { Chess } from 'chess.js';
 
+declare const ChessBoard3: any;
 declare const Chessboard: any;
 declare const Chess: any;
 
@@ -41,7 +42,7 @@ Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0
   move = 0;
 
   pieces = [ 'P', 'N', 'B', 'R', 'Q', 'K' ];
-  soundNames = { P: 'pawn', N: 'bishop', B: 'bishopd', R: 'rookb', Q: 'queenb', K: 'king' };
+  soundNames = { P: 'pawn', N: 'knightb', B: 'bishopd', R: 'rookb', Q: 'queenb', K: 'king' };
   sounds: any = {};
   loaded = 0;
 
@@ -51,17 +52,25 @@ Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0
 
   @ViewChild('boardElm') boardElm;
   board;
+  board3;
 
   timeout;
   playable = false;
+  threeD = false;
 
   constructor(
     private soundService: SoundService
   ) {}
 
   ngOnInit() {
-    this.boardElm.nativeElement.id = 'board1';
-    this.board = Chessboard('board1', {
+    this.board = Chessboard('board', {
+      draggable: true,
+      moveSpeed: 3000,
+      snapbackSpeed: 500,
+      snapSpeed: 100,
+      position: 'start'
+    });
+    this.board3 = ChessBoard3('board3', {
       draggable: true,
       moveSpeed: 3000,
       snapbackSpeed: 500,
@@ -110,6 +119,7 @@ Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0
     this.history = this.chess.history({ verbose: true });
     this.move = 0;
     this.board.start(false);
+    this.board3.start(false);
 
     if (this.timeout) {
       window.clearTimeout(this.timeout);
@@ -142,17 +152,22 @@ Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0
     if (move.san === 'O-O') {
       if (move.color === 'w') {
         this.board.move('e1-g1', 'h1-f1');
+        this.board3.move('e1-g1', 'h1-f1');
       } else {
         this.board.move('e8-g8', 'h8-f8');
+        this.board3.move('e8-g8', 'h8-f8');
       }
     } else if (move.san === 'O-O-O') {
       if (move.color === 'w') {
         this.board.move('e1-c1', 'a1-d1');
+        this.board3.move('e1-c1', 'a1-d1');
       } else {
         this.board.move('e8-c8', 'a8-d8');
+        this.board3.move('e8-c8', 'a8-d8');
       }
     } else {
       this.board.move(move.from + '-' + move.to);
+      this.board3.move(move.from + '-' + move.to);
     }
 
     this.move++;
@@ -161,6 +176,10 @@ Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0
     } else {
       this.playable = false;
     }
+  }
+
+  set3d(val) {
+    this.threeD = val;
   }
 
 }
